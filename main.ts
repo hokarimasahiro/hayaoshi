@@ -7,7 +7,7 @@ function shuryo (数値: number) {
 let p1 = 0
 let p0 = 0
 let strip: neopixel.Strip = null
-strip = neopixel.create(DigitalPin.P2, 14, NeoPixelMode.RGB)
+strip = neopixel.create(DigitalPin.P2, 144, NeoPixelMode.RGB)
 let goal = strip.length() - 1
 strip.setBrightness(32)
 strip.showColor(neopixel.colors(NeoPixelColors.Black))
