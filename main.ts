@@ -1,5 +1,14 @@
+function tenmetsu () {
+    basic.pause(500)
+    strip.setBrightness(0)
+    strip.show()
+    basic.pause(500)
+    strip.setBrightness(akarusa)
+    strip.show()
+}
 input.onButtonPressed(Button.A, function () {
     shokika()
+    mode = 2
     music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
     watchfont.showIcon(
     "11110",
@@ -8,7 +17,7 @@ input.onButtonPressed(Button.A, function () {
     "10010",
     "01100"
     )
-    basic.pause(1000)
+    tenmetsu()
     music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
     watchfont.showIcon(
     "11100",
@@ -17,7 +26,7 @@ input.onButtonPressed(Button.A, function () {
     "10000",
     "11110"
     )
-    basic.pause(1000)
+    tenmetsu()
     music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
     watchfont.showIcon(
     "00100",
@@ -26,8 +35,8 @@ input.onButtonPressed(Button.A, function () {
     "00100",
     "01110"
     )
-    basic.pause(1000)
-    music.play(music.tonePlayable(880, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
+    tenmetsu()
+    music.play(music.tonePlayable(880, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
     mode = 1
     watchfont.showIcon(
     "01100",
@@ -48,6 +57,9 @@ function shuryo (数値: number) {
         basic.pause(500)
     }
 }
+input.onButtonPressed(Button.B, function () {
+    shokika()
+})
 function shokika () {
     strip.showColor(neopixel.colors(NeoPixelColors.Black))
     mode = 0
@@ -63,12 +75,14 @@ let oldp1 = 0
 let ichib = 0
 let ichia = 0
 let mode = 0
+let akarusa = 0
 let strip: neopixel.Strip = null
 pins.setPull(DigitalPin.P1, PinPullMode.PullUp)
 pins.setPull(DigitalPin.P2, PinPullMode.PullUp)
 strip = neopixel.create(DigitalPin.P0, 144, NeoPixelMode.RGB)
 let goal = strip.length() - 1
-strip.setBrightness(32)
+akarusa = 32
+strip.setBrightness(akarusa)
 let colora = neopixel.colors(NeoPixelColors.Red)
 let colorb = neopixel.colors(NeoPixelColors.Green)
 let colorboth = neopixel.colors(NeoPixelColors.Yellow)
@@ -105,7 +119,7 @@ basic.forever(function () {
                 shuryo(colorb)
             }
         }
-    } else {
+    } else if (mode == 2) {
         if (p1 == 0) {
             ichia = 0
         }
