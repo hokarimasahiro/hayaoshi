@@ -1,138 +1,138 @@
+function judgement () {
+    if (ichia + step > goal || ichib + step > goal) {
+        music.play(music.tonePlayable(880, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
+        if (ichia == ichib) {
+            shuryo(colorboth)
+        } else if (ichia >= goal) {
+            shuryo(colora)
+        } else {
+            shuryo(colorb)
+        }
+    }
+}
 function tenmetsu () {
     basic.pause(500)
-    strip.setBrightness(0)
-    strip.show()
+    neoPixel.setBrightness(0)
+    neoPixel.show()
     basic.pause(500)
-    strip.setBrightness(akarusa)
-    strip.show()
+    neoPixel.setBrightness(akarusa)
+    neoPixel.show()
 }
 input.onButtonPressed(Button.A, function () {
     shokika()
     mode = 2
     music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-    watchfont.showIcon(
-    "11110",
-    "00010",
-    "00100",
-    "10010",
-    "01100"
-    )
+    watchfont.showNumber(3)
     tenmetsu()
     music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-    watchfont.showIcon(
-    "11100",
-    "00010",
-    "01100",
-    "10000",
-    "11110"
-    )
+    watchfont.showNumber(2)
     tenmetsu()
     music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-    watchfont.showIcon(
-    "00100",
-    "01100",
-    "00100",
-    "00100",
-    "01110"
-    )
+    watchfont.showNumber(1)
     tenmetsu()
     music.play(music.tonePlayable(880, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
     mode = 1
-    watchfont.showIcon(
-    "01100",
-    "10010",
-    "10010",
-    "10010",
-    "01100"
-    )
+    watchfont.showNumber(0)
     basic.showNumber(0)
     basic.pause(100)
     basic.clearScreen()
 })
+function countUp () {
+    if (p1 != oldp1) {
+        if (p1 == 0) {
+            ichia += step
+        }
+        oldp1 = p1
+    }
+    if (p2 != oldp2) {
+        if (p2 == 0) {
+            ichib += step
+        }
+        oldp2 = p2
+    }
+}
+function Penalty () {
+    if (p1 == 0) {
+        ichia = 0
+    }
+    if (p2 == 0) {
+        ichib = 0
+    }
+}
 function shuryo (数値: number) {
     while (mode == 1) {
-        strip.showColor(数値)
+        neoPixel.showColor(数値)
         basic.pause(500)
-        strip.showColor(neopixel.colors(NeoPixelColors.Black))
+        neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
         basic.pause(500)
     }
 }
+function neoDisp () {
+    neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
+    if (ichia == ichib) {
+        for (let カウンター = 0; カウンター <= step - 1; カウンター++) {
+            neoPixel.setPixelColor(ichia + カウンター, colorboth)
+        }
+    } else {
+        for (let カウンター = 0; カウンター <= step - 1; カウンター++) {
+            neoPixel.setPixelColor(ichia + カウンター, colora)
+            neoPixel.setPixelColor(ichib + カウンター, colorb)
+        }
+    }
+    neoPixel.show()
+}
 input.onButtonPressed(Button.B, function () {
+    step += 1
+    if (step > maxStep) {
+        step = 1
+    }
+    watchfont.showNumber(step)
     shokika()
 })
 function shokika () {
-    strip.showColor(neopixel.colors(NeoPixelColors.Black))
+    neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
     mode = 0
     ichia = 10
     ichib = 10
     oldp1 = 1
     oldp2 = 1
 }
-let p2 = 0
-let p1 = 0
 let oldp2 = 0
+let p2 = 0
 let oldp1 = 0
+let p1 = 0
+let mode = 0
 let ichib = 0
 let ichia = 0
-let mode = 0
+let step = 0
+let maxStep = 0
+let colorboth = 0
+let colorb = 0
+let colora = 0
 let akarusa = 0
-let strip: neopixel.Strip = null
+let goal = 0
+let neoPixel: neopixel.Strip = null
 pins.setPull(DigitalPin.P1, PinPullMode.PullUp)
 pins.setPull(DigitalPin.P2, PinPullMode.PullUp)
-strip = neopixel.create(DigitalPin.P0, 144, NeoPixelMode.RGB)
-let goal = strip.length() - 1
+neoPixel = neopixel.create(DigitalPin.P0, 144, NeoPixelMode.RGB)
+goal = neoPixel.length() - 1
 akarusa = 32
-strip.setBrightness(akarusa)
-let colora = neopixel.colors(NeoPixelColors.Red)
-let colorb = neopixel.colors(NeoPixelColors.Green)
-let colorboth = neopixel.colors(NeoPixelColors.Yellow)
+neoPixel.setBrightness(akarusa)
+colora = neopixel.colors(NeoPixelColors.Red)
+colorb = neopixel.colors(NeoPixelColors.Green)
+colorboth = neopixel.colors(NeoPixelColors.Yellow)
+maxStep = 5
+step = 1
+watchfont.showNumber(step)
 shokika()
 basic.forever(function () {
     p1 = pins.digitalReadPin(DigitalPin.P1)
     p2 = pins.digitalReadPin(DigitalPin.P2)
     if (mode == 1) {
-        if (p1 != oldp1) {
-            if (p1 == 0) {
-                ichia += 1
-                if (ichia >= goal - 3) {
-                    music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-                }
-            }
-            oldp1 = p1
-        }
-        if (p2 != oldp2) {
-            if (p2 == 0) {
-                ichib += 1
-                if (ichib >= goal - 3) {
-                    music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-                }
-            }
-            oldp2 = p2
-        }
-        if (ichia >= goal || ichib >= goal) {
-            music.play(music.tonePlayable(880, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
-            if (ichia == ichib) {
-                shuryo(colorboth)
-            } else if (ichia >= goal) {
-                shuryo(colora)
-            } else {
-                shuryo(colorb)
-            }
-        }
+        countUp()
+        judgement()
     } else if (mode == 2) {
-        if (p1 == 0) {
-            ichia = 0
-        }
-        if (p2 == 0) {
-            ichib = 0
-        }
+        Penalty()
     }
-    strip.showColor(neopixel.colors(NeoPixelColors.Black))
-    if (ichia == ichib) {
-        strip.setPixelColor(ichia, colorboth)
-    } else {
-        strip.setPixelColor(ichia, colora)
-        strip.setPixelColor(ichib, colorb)
-    }
-    strip.show()
+    neoDisp()
 })
