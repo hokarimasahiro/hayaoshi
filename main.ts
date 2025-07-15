@@ -60,10 +60,7 @@ function Penalty () {
     }
 }
 function shuryo (数値: number) {
-    for (let index = 0; index < 10; index++) {
-        if (mode != 1) {
-            return
-        }
+    while (mode == 1) {
         neoPixel.showColor(数値)
         basic.pause(500)
         neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
