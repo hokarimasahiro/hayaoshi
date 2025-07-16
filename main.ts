@@ -2,10 +2,13 @@ function judgement () {
     if (ichia + step > goal || ichib + step > goal) {
         music.play(music.tonePlayable(880, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
         if (ichia == ichib) {
+            watchfont.showChar("-")
             shuryo(colorboth)
         } else if (ichia >= goal) {
+            watchfont.showChar("A")
             shuryo(colora)
         } else {
+            watchfont.showChar("B")
             shuryo(colorb)
         }
     }
@@ -57,11 +60,12 @@ function Penalty () {
 function shuryo (数値: number) {
     neoPixel.showColor(数値)
     for (let index = 0; index < 5; index++) {
-        if (mode == 1) {
+        if (mode != 1) {
             return
         }
         tenmetsu()
     }
+    mode = 0
 }
 function neoDisp () {
     neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
@@ -110,7 +114,7 @@ let goal = 0
 let neoPixel: neopixel.Strip = null
 pins.setPull(DigitalPin.P1, PinPullMode.PullUp)
 pins.setPull(DigitalPin.P2, PinPullMode.PullUp)
-neoPixel = neopixel.create(DigitalPin.P0, 20, NeoPixelMode.RGB)
+neoPixel = neopixel.create(DigitalPin.P0, 25, NeoPixelMode.RGB)
 goal = neoPixel.length() - 1
 akarusa = 32
 neoPixel.setBrightness(akarusa)
