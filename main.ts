@@ -114,7 +114,7 @@ let goal = 0
 let neoPixel: neopixel.Strip = null
 pins.setPull(DigitalPin.P1, PinPullMode.PullUp)
 pins.setPull(DigitalPin.P2, PinPullMode.PullUp)
-neoPixel = neopixel.create(DigitalPin.P0, 25, NeoPixelMode.RGB)
+neoPixel = neopixel.create(DigitalPin.P0, 144, NeoPixelMode.RGB)
 goal = neoPixel.length() - 1
 akarusa = 32
 neoPixel.setBrightness(akarusa)
