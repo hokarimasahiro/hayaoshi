@@ -4,7 +4,7 @@ function judgement () {
         if (ichia == ichib) {
             watchfont.showChar("-")
             shuryo(colorboth)
-        } else if (ichia >= goal) {
+        } else if (ichia + step >= goal) {
             watchfont.showChar("A")
             shuryo(colora)
         } else {
@@ -66,6 +66,7 @@ function shuryo (数値: number) {
         tenmetsu()
     }
     mode = 0
+    shokika()
 }
 function neoDisp () {
     neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
@@ -92,8 +93,8 @@ input.onButtonPressed(Button.B, function () {
 function shokika () {
     neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
     mode = 0
-    ichia = 10
-    ichib = 10
+    ichia = startPoint
+    ichib = startPoint
     oldp1 = 1
     oldp2 = 1
 }
@@ -104,6 +105,7 @@ let p1 = 0
 let mode = 0
 let ichib = 0
 let ichia = 0
+let startPoint = 0
 let step = 0
 let maxStep = 0
 let colorboth = 0
@@ -121,8 +123,9 @@ neoPixel.setBrightness(akarusa)
 colora = neopixel.colors(NeoPixelColors.Red)
 colorb = neopixel.colors(NeoPixelColors.Green)
 colorboth = neopixel.colors(NeoPixelColors.Yellow)
-maxStep = 5
+maxStep = 4
 step = 1
+startPoint = 12
 watchfont.showNumber(step)
 shokika()
 basic.forever(function () {
