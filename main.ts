@@ -21,20 +21,15 @@ function tenmetsu () {
 input.onButtonPressed(Button.A, function () {
     shokika()
     mode = 2
-    music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-    watchfont.showNumber(3)
-    tenmetsu()
-    music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-    watchfont.showNumber(2)
-    tenmetsu()
-    music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
-    watchfont.showNumber(1)
-    tenmetsu()
+    for (let カウンター = 0; カウンター <= 2; カウンター++) {
+        music.play(music.tonePlayable(440, music.beat(BeatFraction.Whole)), music.PlaybackMode.InBackground)
+        watchfont.showNumber(3 - カウンター)
+        tenmetsu()
+    }
     music.play(music.tonePlayable(880, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
     mode = 1
     watchfont.showNumber(0)
-    basic.showNumber(0)
-    basic.pause(100)
+    basic.pause(1000)
     basic.clearScreen()
 })
 function countUp () {
@@ -60,11 +55,12 @@ function Penalty () {
     }
 }
 function shuryo (数値: number) {
-    while (mode == 1) {
-        neoPixel.showColor(数値)
-        basic.pause(500)
-        neoPixel.showColor(neopixel.colors(NeoPixelColors.Black))
-        basic.pause(500)
+    neoPixel.showColor(数値)
+    for (let index = 0; index < 5; index++) {
+        if (mode == 1) {
+            return
+        }
+        tenmetsu()
     }
 }
 function neoDisp () {
@@ -114,7 +110,7 @@ let goal = 0
 let neoPixel: neopixel.Strip = null
 pins.setPull(DigitalPin.P1, PinPullMode.PullUp)
 pins.setPull(DigitalPin.P2, PinPullMode.PullUp)
-neoPixel = neopixel.create(DigitalPin.P0, 144, NeoPixelMode.RGB)
+neoPixel = neopixel.create(DigitalPin.P0, 20, NeoPixelMode.RGB)
 goal = neoPixel.length() - 1
 akarusa = 32
 neoPixel.setBrightness(akarusa)
